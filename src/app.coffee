@@ -25,10 +25,6 @@ angular.module('starter', [
       templateUrl: 'templates/main.html'
       controller: 'MainCtrl'
 
-    .state 'game',
-      abstract: true
-      url: '/game'
-      template: ''
     .state 'game.start',
       url: '/start'
       templateUrl: 'templates/start.html'
