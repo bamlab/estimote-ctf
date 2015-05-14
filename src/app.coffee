@@ -25,7 +25,7 @@ angular.module('starter', [
       templateUrl: 'templates/main.html'
       controller: 'MainCtrl'
 
-    .state 'game.start',
+    .state 'gameStart',
       url: '/start'
       templateUrl: 'templates/start.html'
       controller: 'StartCtrl'
