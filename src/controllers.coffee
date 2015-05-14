@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('StartCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote) ->
+.controller('StartCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote, Beacon) ->
   beaconsFound = {};
 
   registerBeacon = (beaconInfo) ->
@@ -42,6 +42,42 @@ angular.module('starter.controllers', [])
         return
 
       , 5000);
+
+  $scope.registerBase = (teamNb) ->
+
+    return
+
+  $scope.registerDefender = (teamNb) ->
+    return
+
+  updateOrCreateBeacon = (team, role) ->
+    Beacon.query(
+      where:
+        majorMinor: $scope.beacon.major + $scope.beacon.minor
+    )
+    .then(
+      (results) ->
+        if results.length > 0
+          beacon = results[0]
+
+          beacon.team = team
+          beacon.role = role
+        else
+          beacon = new Beacon(
+            team: team
+            role: role
+            majorMinor: $scope.beacon.major + $scope.beacon.minor
+          )
+
+        beacon.save().then(
+          (_player) ->
+            console.log 'ok'
+          (err) ->
+            console.log err
+        )
+      (err) ->
+        $scope.message = "unavailable server"
+    )
 
   $scope.refresh()
 
