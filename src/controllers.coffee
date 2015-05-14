@@ -1,16 +1,18 @@
 angular.module('starter.controllers', [])
 
 .controller('StartCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote, Beacon) ->
-  beaconsFound = {};
+  $scope.beaconsFound = {};
 
   registerBeacon = (beaconInfo) ->
+    console.log(beaconInfo.beacons.length)
+
     angular.forEach(beaconInfo.beacons, (beacon) ->
-      beaconsFound[beacon.major.toString() + beacon.minor.toString()] = beacon
+      $scope.beaconsFound[('' + beacon.major + beacon.minor)] = beacon
     )
 
   $scope.refresh = () ->
     $scope.loading = true;
-    beaconsFound = {};
+    $scope.beaconsFound = {};
 
     $ionicPlatform.ready ->
       $cordovaEstimote.startRangingBeaconsInRegion(
@@ -29,7 +31,7 @@ angular.module('starter.controllers', [])
         )
 
         tmp = []
-        angular.forEach(beaconsFound, (beacon) ->
+        angular.forEach($scope.beaconsFound, (beacon) ->
           tmp.push beacon
         )
 
@@ -41,7 +43,7 @@ angular.module('starter.controllers', [])
 
         return
 
-      , 5000);
+      , 10000);
 
   $scope.registerBase = (team) ->
     updateOrCreateBeacon(team, 'base')
@@ -56,7 +58,7 @@ angular.module('starter.controllers', [])
   updateOrCreateBeacon = (team, role) ->
     Beacon.query(
       where:
-        majorMinor: $scope.beacon.major.toString() + $scope.beacon.minor.toString()
+        majorMinor: ('' + $scope.beacon.major + $scope.beacon.minor)
     )
     .then(
       (results) ->
@@ -69,7 +71,7 @@ angular.module('starter.controllers', [])
           beacon = new Beacon(
             team: team
             role: role
-            majorMinor: $scope.beacon.major.toString() + $scope.beacon.minor.toString()
+            majorMinor: ('' + $scope.beacon.major + $scope.beacon.minor)
           )
 
         beacon.save().then(
