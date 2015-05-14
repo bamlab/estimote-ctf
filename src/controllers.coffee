@@ -94,7 +94,7 @@ angular.module('starter.controllers', [])
       (_player) ->
         $rootScope.player = _player
         $scope.message = "Login successful"
-        $state.go "game"
+        $state.go "play"
       (err) ->
         console.log err
         $scope.message = "Login unsuccessful"
@@ -125,48 +125,24 @@ angular.module('starter.controllers', [])
 
 .controller 'MainCtrl', () -> null
 
-.controller 'GameCtrl', ($scope, $ionicPlatform, $timeout) ->
+.controller 'GameCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote) ->
   beaconsFound = {};
+  $scope.hasFlag = false
 
-  registerBeacon = (beaconInfo) ->
+  checkBeaconForFlag = (beaconInfo) ->
     angular.forEach(beaconInfo.beacons, (beacon) ->
-      if !beaconsFound[beacon.major + beacon.minor]
-        beaconsFound[beacon.major + beacon.minor] = beacon
+      if beacon.distance < 0.3
+        console.log true
+        $timeout(() -> $scope.hasFlag = true)
+    )
+  $scope.loading = true;
+
+  $ionicPlatform.ready ->
+    $cordovaEstimote.startRangingBeaconsInRegion(
+      {},
+      checkBeaconForFlag,
+      (err) ->
+        console.log err
+        return
     )
 
-  $scope.refresh = () ->
-    $scope.loading = true;
-
-    $ionicPlatform.ready ->
-      estimote.beacons.startRangingBeaconsInRegion(
-        {},
-        registerBeacon,
-        (err) ->
-          console.log err
-          return
-      )
-
-      $timeout(() ->
-        estimote.beacons.stopRangingBeaconsInRegion(
-          {},
-          angular.noop,
-          angular.noop
-        )
-
-        tmp = []
-        angular.forEach(beaconsFound, (beacon) ->
-          tmp.push beacon
-        )
-
-        tmp.sort (beacon1, beacon2) ->
-          return beacon1.distance > beacon2.distance
-
-        $scope.beacon = tmp[0]
-        $scope.loading = false;
-
-        return
-
-      , 5000);
-      $timeout($scope.refresh, 10000)
-
-  $scope.refresh()
