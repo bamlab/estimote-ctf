@@ -140,6 +140,8 @@ angular.module('starter.controllers', [])
   beaconsFound = {}
   beaconRedBase = null
   beaconBlueBase = null
+  beaconRedDefender = null
+  beaconBlueDefender = null
   $scope.hasFlag = false
   $scope.isRedTeam = $rootScope.player.team == "red"
 
@@ -151,6 +153,11 @@ angular.module('starter.controllers', [])
             beaconBlueBase = beacon
           else
             beaconRedBase = beacon
+        else
+          if beacon.team == "blue"
+            beaconBlueDefender = beacon
+          else
+            beaconRedDefender = beacon
 
   checkBeaconForFlag = (beaconInfo) ->
     angular.forEach(beaconInfo.beacons, (beacon) ->
