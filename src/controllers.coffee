@@ -85,3 +85,6 @@ angular.module('starter.controllers', [])
     return
 
   return
+
+
+.controller 'MainCtrl', () ->

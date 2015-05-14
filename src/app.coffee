@@ -19,15 +19,28 @@ angular.module('starter', [
 )
 
 .config ($stateProvider, $urlRouterProvider) ->
-  $stateProvider.state('tab',
-    url: '/'
-    templateUrl: 'templates/start.html'
-    controller: 'StartCtrl')
-  .state 'login',
-    url: '/login'
-    templateUrl: 'templates/login.html'
-    controller: 'LoginCtrl'
+  $stateProvider
+    .state 'home',
+      url: '/'
+      templateUrl: 'templates/main.html'
+      controller: 'MainCtrl'
+
+    .state 'game',
+      abstract: true
+      url: '/game'
+      template: ''
+    .state 'game.start',
+      url: '/start'
+      templateUrl: 'templates/start.html'
+      controller: 'StartCtrl'
+
+    .state 'login',
+      url: '/login'
+      templateUrl: 'templates/login.html'
+      controller: 'LoginCtrl'
+
   $urlRouterProvider.otherwise '/'
+
   return
 
 .config ['ParseProvider', (ParseProvider) ->
