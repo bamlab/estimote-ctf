@@ -1,6 +1,10 @@
 <ion-view>
     <ion-content>
-        {{ beacon }}
+        <ion-spinner class="spinner-energized" ng-if="loading"></ion-spinner>
+        <div ng-if="!loading">
+            {{ beacon }}
+        </div>
+
         <button class="button button-block button-balanced" ng-click="refresh()">Refresh</button>
     </ion-content>
 </ion-view>
