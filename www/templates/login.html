@@ -1,0 +1,10 @@
+<ion-view>
+    <ion-content has-bouncing="false" class="its_bg-image-2 its_padding-s">
+      <form novalidate class="simple-form">
+        Username: <input type="text" ng-model="user.username" /><br />
+        Team:<input type="radio" ng-model="user.team" value="red" />red
+        <input type="radio" ng-model="user.team" value="blue" />blue<br />
+        <input type="submit" ng-click="login(user)" value="Login" />
+      </form>
+    </ion-content>
+</ion-view>
