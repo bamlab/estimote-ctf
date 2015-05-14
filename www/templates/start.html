@@ -1,10 +1,25 @@
 <ion-view>
-    <ion-content>
+    <ion-content padding="true">
         <ion-spinner class="spinner-energized" ng-if="loading"></ion-spinner>
-        <div ng-if="!loading">
-            {{ beacon }}
+
+        <div>
+            <div ng-if="!loading">
+                {{ beacon }}
+            </div>
+
+            <button class="button button-balanced icon ion-refresh" ng-click="refresh()">Refresh</button>
         </div>
 
-        <button class="button button-block button-balanced" ng-click="refresh()">Refresh</button>
+        <div class="button-bar bar-calm">
+            <a class="button" ng-click="registerBase(1)">Team 1 base</a>
+            <a class="button" ng-click="registerBase(1)">Team 2 base</a>
+        </div>
+
+        <div class="button-bar bar-positive">
+            <a class="button" ng-click="registerDefender(1)">Team 1 defender</a>
+            <a class="button" ng-click="registerDefender(1)">Team 2 defender</a>
+        </div>
+
+        <button class="button button-block button-balanced icon-right ion-chevron-right" ng-click="refresh()">Next</button>
     </ion-content>
 </ion-view>
