@@ -125,15 +125,15 @@ angular.module('starter.controllers', [])
 
 .controller 'MainCtrl', () -> null
 
-.controller 'GameCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote) ->
-  beaconsFound = {};
+.controller 'GameCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote, $rootScope) ->
+  beaconsFound = {}
   $scope.hasFlag = false
+  $scope.isRedTeam = $rootScope.player.team == "red"
 
   checkBeaconForFlag = (beaconInfo) ->
     angular.forEach(beaconInfo.beacons, (beacon) ->
       if beacon.distance < 0.3
-        console.log true
-        $timeout(() -> $scope.hasFlag = true)
+        $timeout () -> $scope.hasFlag = true
     )
   $scope.loading = true;
 
