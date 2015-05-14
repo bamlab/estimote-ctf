@@ -43,11 +43,14 @@ angular.module('starter.controllers', [])
 
       , 5000);
 
-  $scope.registerBase = (teamNb) ->
+  $scope.registerBase = (team) ->
+    updateOrCreateBeacon(team, 'base')
 
     return
 
-  $scope.registerDefender = (teamNb) ->
+  $scope.registerDefender = (team) ->
+    updateOrCreateBeacon(team, 'defender')
+
     return
 
   updateOrCreateBeacon = (team, role) ->
