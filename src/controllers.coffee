@@ -5,8 +5,7 @@ angular.module('starter.controllers', [])
 
   registerBeacon = (beaconInfo) ->
     angular.forEach(beaconInfo.beacons, (beacon) ->
-      if !beaconsFound[beacon.major + beacon.minor]
-        beaconsFound[beacon.major + beacon.minor] = beacon
+      beaconsFound[beacon.major + beacon.minor] = beacon
     )
 
   $scope.refresh = () ->
