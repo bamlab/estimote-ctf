@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('starter')
 .factory '$cordovaEstimote', () ->
 
   startRangingBeaconsInRegion: (region, successCallback, errorCallback) ->
