@@ -18,9 +18,13 @@ angular.module('starter', [
   $stateProvider.state('tab',
     url: '/'
     templateUrl: 'templates/start.html'
-    controller: 'StartCtrl').state 'login',
+    controller: 'StartCtrl')
+  .state 'login',
     url: '/login'
     templateUrl: 'templates/login.html'
     controller: 'LoginCtrl'
   $urlRouterProvider.otherwise '/'
   return
+.config ['ParseProvider', (ParseProvider) ->
+  ParseProvider.initialize '18UPD5RuXebgnhvc0yVK3pIkslTj7LbqATAz9Daa', '0EQ63ItiOArSc9WSFJlv1orJBU4x2e6soY8ssnjv'
+]
