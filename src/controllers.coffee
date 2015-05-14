@@ -30,11 +30,7 @@ angular.module('starter.controllers', [])
 )
 
 .controller 'LoginCtrl', ($scope, Player, $rootScope) ->
-
-  $scope.login = (playerForm) ->
-    if !playerForm or !playerForm.username or !playerForm.team
-      $scope.message = 'missing fields'
-      return
+  _savePlayer = (playerForm) ->
     playerParse = new Player(
       username: playerForm.username
       team: playerForm.team
@@ -48,6 +44,25 @@ angular.module('starter.controllers', [])
         $scope.message = "Login unsuccessful"
     )
 
+  $scope.login = (playerForm) ->
+    if !playerForm or !playerForm.username or !playerForm.team
+      $scope.message = 'missing fields'
+      return
+
+    query = Player.query(
+      where:
+        username: playerForm.username
+        team: playerForm.team
+    )
+    .then(
+      (results) ->
+        if results.length > 0
+          $scope.message = "Login already used"
+        else
+          _savePlayer playerForm
+      (err) ->
+        $scope.message = "unavailable server"
+    )
     return
 
   return

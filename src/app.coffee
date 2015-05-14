@@ -3,7 +3,9 @@ angular.module('starter', [
   'starter.controllers'
   'starter.services'
   'Parse'
-]).run(($ionicPlatform) ->
+])
+
+.run(($ionicPlatform) ->
   $ionicPlatform.ready ->
     # Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     # for form inputs)
@@ -14,7 +16,9 @@ angular.module('starter', [
       StatusBar.styleLightContent()
     return
   return
-).config ($stateProvider, $urlRouterProvider) ->
+)
+
+.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state('tab',
     url: '/'
     templateUrl: 'templates/start.html'
@@ -25,6 +29,7 @@ angular.module('starter', [
     controller: 'LoginCtrl'
   $urlRouterProvider.otherwise '/'
   return
+
 .config ['ParseProvider', (ParseProvider) ->
   ParseProvider.initialize '18UPD5RuXebgnhvc0yVK3pIkslTj7LbqATAz9Daa', '0EQ63ItiOArSc9WSFJlv1orJBU4x2e6soY8ssnjv'
 ]
