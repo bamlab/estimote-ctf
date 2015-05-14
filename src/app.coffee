@@ -39,6 +39,20 @@ angular.module('starter', [
       templateUrl: 'templates/login.html'
       controller: 'LoginCtrl'
 
+  ###
+  $stateProvider.state('tab',
+    url: '/'
+    templateUrl: 'templates/start.html'
+    controller: 'StartCtrl')
+  .state 'login',
+    url: '/login'
+    templateUrl: 'templates/login.html'
+    controller: 'LoginCtrl'
+  .state 'game',
+    url: '/game'
+    templateUrl: 'templates/game.html'
+    controller: 'GameCtrl'
+  ###
   $urlRouterProvider.otherwise '/'
 
   return

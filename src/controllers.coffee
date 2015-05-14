@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
   return
 )
 
-.controller 'LoginCtrl', ($scope, Player, $rootScope) ->
+.controller 'LoginCtrl', ($scope, Player, $rootScope, $state) ->
   _savePlayer = (playerForm) ->
     playerParse = new Player(
       username: playerForm.username
@@ -58,6 +58,7 @@ angular.module('starter.controllers', [])
       (_player) ->
         $rootScope.player = _player
         $scope.message = "Login successful"
+        $state.go "game"
       (err) ->
         console.log err
         $scope.message = "Login unsuccessful"
@@ -86,5 +87,50 @@ angular.module('starter.controllers', [])
 
   return
 
+.controller 'MainCtrl', () -> null
 
-.controller 'MainCtrl', () ->
+.controller 'GameCtrl', ($scope, $ionicPlatform, $timeout) ->
+  beaconsFound = {};
+
+  registerBeacon = (beaconInfo) ->
+    angular.forEach(beaconInfo.beacons, (beacon) ->
+      if !beaconsFound[beacon.major + beacon.minor]
+        beaconsFound[beacon.major + beacon.minor] = beacon
+    )
+
+  $scope.refresh = () ->
+    $scope.loading = true;
+
+    $ionicPlatform.ready ->
+      estimote.beacons.startRangingBeaconsInRegion(
+        {},
+        registerBeacon,
+        (err) ->
+          console.log err
+          return
+      )
+
+      $timeout(() ->
+        estimote.beacons.stopRangingBeaconsInRegion(
+          {},
+          angular.noop,
+          angular.noop
+        )
+
+        tmp = []
+        angular.forEach(beaconsFound, (beacon) ->
+          tmp.push beacon
+        )
+
+        tmp.sort (beacon1, beacon2) ->
+          return beacon1.distance > beacon2.distance
+
+        $scope.beacon = tmp[0]
+        $scope.loading = false;
+
+        return
+
+      , 5000);
+      $timeout($scope.refresh, 10000)
+
+  $scope.refresh()
