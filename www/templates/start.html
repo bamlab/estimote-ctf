@@ -1,10 +1,10 @@
 <ion-view>
     <ion-content padding="true">
-        <ion-spinner class="spinner-energized" ng-if="loading"></ion-spinner>
+        <ion-spinner class="spinner-energized" ng-if="!stopped"></ion-spinner>
 
         <div>
-            <div ng-if="!loading">
-                <h3>Beacon found</h3>
+            <div>
+                <h3>Closest beacon</h3>
                 <ul>
                     <li>Major id : {{ beacon.major }}</li>
                     <li>Minor id : {{ beacon.minor }}</li>
@@ -12,12 +12,13 @@
                 </ul>
             </div>
 
-            <button class="button button-balanced icon ion-refresh" ng-click="refresh()">Refresh</button>
+            <button class="button button-balanced icon ion-refresh" ng-click="refresh()"> Refresh</button>
+            <button class="button button-balanced icon ion-checkmark-round" ng-click="stopLooking()"> Choose</button>
         </div>
 
         <br>
 
-        <div ng-if="!loading">
+        <div ng-if="stopped">
             <div class="button-bar">
                 <a class="button button-positive" ng-click="registerBase('blue')">Base</a>
                 <a class="button button-assertive" ng-click="registerBase('red')">Base</a>
@@ -29,6 +30,9 @@
             </div>
         </div>
 
-        <button class="button button-block button-balanced icon-right ion-chevron-right" ng-click="refresh()">Next</button>
+        <button class="button button-block button-balanced icon-right ion-chevron-right"
+                ng-if="stopped">
+            Next
+        </button>
     </ion-content>
 </ion-view>

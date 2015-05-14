@@ -10,8 +10,19 @@ angular.module('starter.controllers', [])
       $scope.beaconsFound[('' + beacon.major + beacon.minor)] = beacon
     )
 
+    tmp = []
+    angular.forEach($scope.beaconsFound, (beacon) ->
+      tmp.push beacon
+    )
+
+    tmp.sort (beacon1, beacon2) ->
+      return beacon1.distance > beacon2.distance
+
+    $timeout -> $scope.beacon = tmp[0]
+
   $scope.refresh = () ->
-    $scope.loading = true;
+    $scope.stopped = false;
+
     $scope.beaconsFound = {};
 
     $ionicPlatform.ready ->
@@ -23,27 +34,22 @@ angular.module('starter.controllers', [])
           return
       )
 
-      $timeout(() ->
-        $cordovaEstimote.stopRangingBeaconsInRegion(
-          {},
-          angular.noop,
-          angular.noop
-        )
+    $scope.$on('$destroy', () ->
+      $cordovaEstimote.stopRangingBeaconsInRegion(
+        {},
+        angular.noop,
+        angular.noop
+      )
+    )
 
-        tmp = []
-        angular.forEach($scope.beaconsFound, (beacon) ->
-          tmp.push beacon
-        )
+  $scope.stopLooking = () ->
+    $scope.stopped = true;
 
-        tmp.sort (beacon1, beacon2) ->
-          return beacon1.distance > beacon2.distance
-
-        $scope.beacon = tmp[0]
-        $scope.loading = false;
-
-        return
-
-      , 10000);
+    $cordovaEstimote.stopRangingBeaconsInRegion(
+      {},
+      angular.noop,
+      angular.noop
+    )
 
   $scope.registerBase = (team) ->
     updateOrCreateBeacon(team, 'base')
