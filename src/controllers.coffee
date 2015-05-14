@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('StartCtrl', ($scope, $ionicPlatform, $timeout) ->
+.controller('StartCtrl', ($scope, $ionicPlatform, $timeout, $cordovaEstimote) ->
   beaconsFound = {};
 
   registerBeacon = (beaconInfo) ->
@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
     $scope.loading = true;
 
     $ionicPlatform.ready ->
-      estimote.beacons.startRangingBeaconsInRegion(
+      $cordovaEstimote.startRangingBeaconsInRegion(
         {},
         registerBeacon,
         (err) ->
@@ -22,7 +22,7 @@ angular.module('starter.controllers', [])
       )
 
       $timeout(() ->
-        estimote.beacons.stopRangingBeaconsInRegion(
+        $cordovaEstimote.stopRangingBeaconsInRegion(
           {},
           angular.noop,
           angular.noop
